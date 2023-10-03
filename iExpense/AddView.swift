@@ -15,21 +15,30 @@ struct AddView: View {
     
     let types = ["Business", "Personal"]
     var body: some View {
-        NavigationView {
-            Form {
-                TextField("Name", text: $name)
-                Picker("Type", selection: $type) {
-                    ForEach(types, id: \.self) {
-                        Text($0)
+            NavigationView {
+                
+                Form {
+                    TextField("Name", text: $name)
+                    Picker("Type", selection: $type) {
+                        ForEach(types, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    TextField("Amount", value: $amount, format: .currency(code: "USD"))
+                        .keyboardType(.decimalPad)
+
+                }
+                .navigationTitle("Add New Expense")
+                .toolbar {
+                    Button("Save") {
+                        let item = ExpenseItem(name: name, type: type, amount: amount)
+                        expenses.items.append(item)
                     }
                 }
-                .pickerStyle(.segmented)
-                TextField("Amount", value: $amount, format: .currency(code: "USD"))
-                    .keyboardType(.decimalPad)
-                
             }
-        }
-        .navigationTitle("Add New Expense")
+            
+
     }
 }
 
